@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import json, os, logging
+import json, os, logging, sys
 path = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -10,21 +10,25 @@ logging.basicConfig(stream=sys.stdout, level=log_level,
     format='[%(levelname)s] [%(asctime)s] - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p')
 
 # repos
+repo1 = '/project2'
+
+filename = {}
+filename['file1'] = repo1+'/data.json'
 
 # script
 
 data = {}
-filename = 'data.json'
-with open(filename, 'r') as f:
-    data = json.load(f)
 
-print("Before edit")
-print(data)
+with open(path+filename['file1'], 'r') as f:
+    data = json.load(f)
 
 data["item3"] = {
     'active': True,
     'host': 'server3' 
     }
 
-with open(filename, 'w') as f:
+data["item2"]["active"] = True
+
+#os.remove(filename)
+with open(path+filename['file1'], 'w') as f:
     json.dump(data, f, indent=4, sort_keys=True)
